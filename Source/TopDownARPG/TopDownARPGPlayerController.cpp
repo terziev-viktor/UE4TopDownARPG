@@ -36,6 +36,7 @@ void ATopDownARPGPlayerController::SetupInputComponent()
 
 	InputComponent->BindAction("Ability1", IE_Pressed, this, &ATopDownARPGPlayerController::ActivateAbility1);
 	InputComponent->BindAction("Ability2", IE_Pressed, this, &ATopDownARPGPlayerController::ActivateAbility2);
+	InputComponent->BindAction("TimeCapsule", IE_Pressed, this, &ATopDownARPGPlayerController::ActivateTimeCapsuleAbility);
 
 	// support touch devices 
 	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ATopDownARPGPlayerController::MoveToTouchLocation);
@@ -70,6 +71,22 @@ void ATopDownARPGPlayerController::ActivateAbility2()
 	}
 
 	UAbility* Ability = PlayerCharacter->AbilityInstances[1];
+	if (IsValid(Ability))
+	{
+		Ability->Activate(PlayerCharacter);
+	}
+}
+
+void ATopDownARPGPlayerController::ActivateTimeCapsuleAbility()
+{
+	ATopDownARPGCharacter* PlayerCharacter = Cast<ATopDownARPGCharacter>(GetPawn());
+	if (IsValid(PlayerCharacter) == false)
+	{
+		UE_LOG(LogTopDownARPG, Error, TEXT("ATopDownARPGPlayerController::ActivateAbility1 IsValid(PlayerCharacter) == false"));
+		return;
+	}
+
+	UAbility* Ability = PlayerCharacter->AbilityInstances[2];
 	if (IsValid(Ability))
 	{
 		Ability->Activate(PlayerCharacter);
